@@ -6,7 +6,8 @@ function zipkinInterceptor ({ tracer, serviceName, remoteServiceName }) {
   const instrumentation = new Instrumentation.HttpClient({ tracer, serviceName, remoteServiceName })
   return function (request, next) {
     tracer.scoped(() => {
-      const options = instrumentation.recordRequest({}, request.url, request.method)
+      const method = request.method || 'GET';
+      const options = instrumentation.recordRequest({}, request.url, method)
 
       for (var key in options.headers) {
         if (options.headers.hasOwnProperty(key)) {
@@ -23,3 +24,5 @@ function zipkinInterceptor ({ tracer, serviceName, remoteServiceName }) {
     })
   }
 }
+
+module.exports = zipkinInterceptor
