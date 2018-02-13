@@ -1,4 +1,4 @@
-# Zipkin instrumentation for vue-resource ![Build](https://travis-ci.org/elgris/zipkin-instrumentation-vue-resource.svg?branch=master)
+# Zipkin instrumentation for vue-resource [![Build Status](https://travis-ci.org/elgris/zipkin-instrumentation-vue-resource.svg?branch=master)](https://travis-ci.org/elgris/zipkin-instrumentation-vue-resource) [![npm version](https://badge.fury.io/js/zipkin-instrumentation-vue-resource.svg)](https://badge.fury.io/js/zipkin-instrumentation-vue-resource)
 
 ## What? 
 
