@@ -18,7 +18,11 @@ function zipkinInterceptor ({ tracer, serviceName, remoteServiceName }) {
       const traceId = tracer.id
       next(function (response) {
         tracer.scoped(() => {
-          instrumentation.recordResponse(traceId, response.status)
+          if (response.ok) {
+            instrumentation.recordResponse(traceId, response.status)
+          } else {
+            instrumentation.recordError(traceId, new Error('status ' + response.status))
+          }
         })
       })
     })

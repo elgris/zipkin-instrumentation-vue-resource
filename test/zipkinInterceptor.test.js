@@ -34,7 +34,7 @@ describe('Zipkin interceptor', function() {
     })
   })
 
-
+  
   it(`should use name ${serviceName} and remote name ${remoteServiceName}`, function() {
     var serviceNameLine = ''
     var serverAddrLine = ''
@@ -88,4 +88,31 @@ describe('Zipkin interceptor', function() {
       assert.equal(ids.size, 1)
     })
   })
+
+  it(`should record errors when response code is not OK`, function() {
+    var errorLine = ''
+    const tracer = new Tracer({
+      ctxImpl: new ExplicitContext(),
+      recorder: new ConsoleRecorder(function(line) {
+        if (line.indexOf('BinaryAnnotation(error="Error: status 404")') > -1) {
+          errorLine = line
+        }
+      }),
+      localServiceName: serviceName
+    })
+
+    Vue.http.interceptors.push(function(request, next) {
+      next(request.respondWith('', { status: 404, statusText: 'Not Found' }))
+    })
+
+    const interceptor = zipkinInterceptor({tracer, serviceName, remoteServiceName})
+    Vue.http.interceptors.push(interceptor)
+
+    const req = Vue.http.get('http://foo.bar/baz')
+    return req.then(function(response) {
+      throw new Error('promise must have returned a failure')
+    }, function(response) {
+      assert.ok(errorLine.length > 0)
+    })
+  })  
 })

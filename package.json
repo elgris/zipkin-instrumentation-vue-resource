@@ -1,6 +1,6 @@
 {
   "name": "zipkin-instrumentation-vue-resource",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Interceptor for vue-resource that instruments outgoing requests",
   "main": "src/index.js",
   "scripts": {
