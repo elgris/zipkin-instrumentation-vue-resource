@@ -10,9 +10,16 @@ Sometimes tracing of your backend components is not enough, so you need to do so
 
 ## How?
 
-What you need to do is to initialise Zipkin Tracer, because the interceptor does not provide any default for that at the moment. Your application may communicate to Zipkin through HTTP, you can do that using proxy (can be defined with webpack). 
+### ... to install
 
-`main.js`  may look like this:
+```
+npm install --save zipkin-instrumentation-vue-resource
+```
+
+### ... to add an interceptor
+What you need to do is to initialise Zipkin Tracer, because the interceptor does not provide any default for that at the moment. 
+
+`main.js` may contain initialisation logic and may look like this:
 
 ```js
 // these imports are zipkin-specific
@@ -46,7 +53,10 @@ const interceptor = zipkinInterceptor({tracer, serviceName})
 Vue.http.interceptors.push(interceptor)
 ```
 
-Then `proxyTable` in `config/index.js` may look like this:
+### ... to send data to Zipkin
+
+Your application can communicate to Zipkin through HTTP, you can do that using Webpack's proxy table. `proxyTable` in `config/index.js` may look like this:
+
 ```js
   proxyTable: {
       '/zipkin': {
@@ -59,4 +69,4 @@ Then `proxyTable` in `config/index.js` may look like this:
   },
 ```
 
-The piece of configuration above redirects all requests to `/zipkin` path to your actual Zipkin server running on `127.0.0.1:9411`.
+The piece of configuration above redirects all requests to `/zipkin` path (exactly what the interceptor uses in example above) to your actual Zipkin server running on `127.0.0.1:9411`.
