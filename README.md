@@ -1,4 +1,4 @@
-# Zipkin instrumentation for vue-resource
+# Zipkin instrumentation for vue-resource ![Build](https://travis-ci.org/elgris/zipkin-instrumentation-vue-resource.svg?branch=master)
 
 ## What? 
 
